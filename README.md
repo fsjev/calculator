@@ -1,1 +1,1 @@
-# calculator
+# This repository contains files for my version of the calculator project from The Odin Project.
