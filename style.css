@@ -14,7 +14,6 @@ body{
     border: 1px solid rgba(59, 59, 59, 0.404);
     box-shadow: 0px 0px 15px rgba(0, 0, 0, .4);
     width: 400px;
-    height: 515px;
     border-radius: 20px;
 }
 .display-container{
@@ -39,25 +38,27 @@ body{
 .keys-container{
     margin: 35px auto;
     width: 330px;
-    height: 330px;
+    height: 412px;
     border-radius: 20px;
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 2.5px 10px;
 }
 .key{
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    font-size: 27px;
+    font-size: 35px;
     border: 1px solid rgba(0, 0, 0, .4);
     flex: 1 1 22%;
-    height: 22%;
+    height: 18%;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: .2s;
+    user-select: none;
 }
 .key:hover{
     scale: 1.1;
@@ -65,16 +66,52 @@ body{
 .key:active{
     scale: 1;
 }
+.clear-all{
+    background-color: gray;
+    color: white;
+    border: none;
+    font-size: 15px;
+    text-align: center;
+}
 .clear{
     background-color: gray;
     color: white;
     border: none;
+    font-size: 15px;
+    text-align: center;
 }
-.times{
+#negative{
+    font-size: 15px;
+    background-color: gray;
+    color: white;
+    border: none;
+}
+#square{
+    font-size: 15px;
+    background-color: gray;
+    color: white;
+}
+#decimal{
+    background-color: gray;
+    color: white;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.lower{
     margin-top: 2px;
+}
+.higher{
+    margin-bottom: 13px;
+    font-size: 25px;
+}
+#equal{
+    color: black; 
 }
 .operator{
     background-color: rgb(219, 58, 0);
     color: white;
     border: none;
+}
+.operator-click{
+    background-color: black;
+    color: rgb(219, 58, 0);
 }
