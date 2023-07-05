@@ -36,7 +36,10 @@ body{
     align-items: center;
 }
 .keys-container{
-    margin: 35px auto;
+    margin-top: 25px;
+    margin-bottom: 35px;
+    margin-left: auto;
+    margin-right: auto;
     width: 330px;
     height: 412px;
     border-radius: 20px;
@@ -48,7 +51,7 @@ body{
 .key{
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    font-size: 35px;
+    font-size: 30px;
     border: 1px solid rgba(0, 0, 0, .4);
     flex: 1 1 22%;
     height: 18%;
@@ -86,8 +89,8 @@ body{
     color: white;
     border: none;
 }
-#square{
-    font-size: 15px;
+#square, #cube{
+    font-size: 16px;
     background-color: gray;
     color: white;
 }
@@ -104,14 +107,25 @@ body{
     font-size: 25px;
 }
 #equal{
-    color: black; 
+    color: black;
+    background-color: white; 
 }
 .operator{
     background-color: rgb(219, 58, 0);
     color: white;
     border: none;
 }
+.extended{
+    border: none;
+}
 .operator-click{
     background-color: black;
     color: rgb(219, 58, 0);
+}
+.info{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    visibility: hidden;
 }
