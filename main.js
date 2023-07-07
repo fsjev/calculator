@@ -10,28 +10,34 @@ const zeroButton = document.querySelector(".zero");
 const equalButton = document.getElementById("equal");
 const negButton = document.getElementById("negative");
 const squareButton = document.getElementById("square");
+const cubeButton = document.getElementById("cube");
 const decimalButton = document.getElementById("decimal");
 const keysContainer = document.querySelector(".keys-container");
 const msg = document.querySelector(".info");
 let is14digits = false;
+let shouldResetDisplay = false;
 let storedDigits = new Array();
 let completeNumberGlobal;
 
 
 
-clearAllButton.addEventListener("click", clear);
-decimalButton.addEventListener("click", clear);
-negButton.addEventListener("click", makeNegative)
-
 digitButtons.forEach(button => button.addEventListener("click", () => appendDigit(button.textContent)));
+operatorButtons.forEach(button => button.addEventListener("click", () => initiateOperation(button.textContent)));
+
+clearAllButton.addEventListener("click", clear);
+negButton.addEventListener("click", setNegative);
+squareButton.addEventListener("click", square);
+cubeButton.addEventListener("click", cube);
+decimalButton.addEventListener("click", setDecimal);
+equalButton.addEventListener("click", evaluate);
 
 
-// window.addEventListener("keydown", (e) => {
-//     console.log(e.key);
-// });
+window.addEventListener("keydown", getKeyboardInput);
 
-
-
+function getKeyboardInput(e){
+    if(e.key >= 0 && e.key <= 9) appendDigit(e.key);
+    if(e.key === "Escape") clear();
+};
 
 function add(x, y){
     return x + y;
@@ -49,23 +55,62 @@ function divide(x, y){
     return x / y;
 };
 
-function square(x){
-    return x ** 2;
+function square(){
+    display.textContent = Number(display.textContent) ** 2;
 };
 
-function operate(x, y, operator){
-    x = Number(x);
-    y = Number(y);
+function cube(){
+    display.textContent = Number(display.textContent) ** 3;
+};
+
+function initiateOperation(sign){
+    if(operator === ""){
+        operator = sign;
+        if(storedDigits.length === 0){
+            firstOperand = display.textContent;
+        }else{
+            firstOperand = completeNumberGlobal.join("");
+        }
+        shouldResetDisplay = true;
+    }else{
+        evaluate();
+        operator = sign;
+        firstOperand = display.textContent;
+        shouldResetDisplay = true;
+    }
+    
+};
+
+function operate(firstOperand, secondOperand, operator){
+    x = Number(firstOperand);
+    y = Number(secondOperand);
+
     switch(operator){
         case "+":
             return add(x, y);
         case "-":
             return subtract(x, y);
-        case "*":
+        case "×":
             return multiply(x, y);
-        case "/":
+        case "÷":
             return divide(x, y);
+        default:
+            return null;
     };
+};
+
+function evaluate(){
+    if(operator !== ""){
+        secondOperand = display.textContent;
+        display.textContent = roundEvaluation(operate(firstOperand, secondOperand, operator));
+    }else alert("No current calculation!")
+    firstOperand = 0;
+    secondOperand = 0;
+    operator = "";
+};
+
+function roundEvaluation(number){
+    return Math.round(number * 1000) / 1000;
 };
 
 function clear(){
@@ -75,31 +120,11 @@ function clear(){
     operator = "";
     storedDigits = [];
     is14digits = false;
+    shouldResetDisplay = false;
     setDisplayControls(is14digits);
 };
 
-// function clearLast(){
-//     if(storedDigits.length === 0){
-//         let str = display.textContent;
-//         let array = Array.from(str);
-//         if(array.length === 2 && array.includes("-")){
-//             display.textContent = "0";
-//         }else if(array.length === 1){
-//             display.textContent = "0";
-//         }else{
-//             array.pop();
-//             display.textContent = array.join("");
-//         }
-//     }else{
-//         completeNumberGlobal.pop();
-//         let setdisplay = completeNumberGlobal.slice(-13);
-//         display.textContent =  setdisplay.join("");
-//         is14digits = false;
-//         setDisplayControls(is14digits);
-//     }
-// };
-
-function makeNegative(){
+function setNegative(){
     let str = display.textContent;
     let array = Array.from(str);
     if(str.includes("-")){
@@ -111,22 +136,39 @@ function makeNegative(){
     }
 };
 
+function setDecimal(){
+    let str = display.textContent;
+    let array = Array.from(str);
+    if(!str.includes(".")){
+        array.push(".");
+        display.textContent = array.join("");
+    }
+};
+
 function appendDigit(digit){
-    if (display.textContent.length === 13){
-        is14digits = true;
-        updateLongNum(digit);
-        setDisplayControls(is14digits);
+    if(shouldResetDisplay){
+        resetDisplay(digit);
     }else{
-        is14digits = false;
-        setDisplayControls(is14digits);
-        if(display.textContent === "0"){
-            display.textContent = digit;
+        if (display.textContent.length === 13){
+            is14digits = true;
+            updateLongNum(digit);
+            setDisplayControls(is14digits);
         }else{
-            display.textContent = `${display.textContent}${digit}`;
+            is14digits = false;
+            setDisplayControls(is14digits);
+            if(display.textContent === "0"){
+                display.textContent = digit;
+            }else{
+                display.textContent = `${display.textContent}${digit}`;
+            }
         }
     }
 };
 
+function resetDisplay(digit){
+    display.textContent = digit;
+    shouldResetDisplay = false;
+};
 
 function updateLongNum(digit){
     let displayValue = `${display.textContent}${digit}`;
@@ -154,10 +196,6 @@ function updateLongNum(digit){
             display.textContent =  array.join("");
         }  
     }
-
-    
-        
-    
 };
 
 function storeLongNum(firstNum, displayValue){
