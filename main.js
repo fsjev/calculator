@@ -12,7 +12,6 @@ const negButton = document.getElementById("negative");
 const squareButton = document.getElementById("square");
 const cubeButton = document.getElementById("cube");
 const decimalButton = document.getElementById("decimal");
-const keysContainer = document.querySelector(".keys-container");
 const msg = document.querySelector(".info");
 let is14digits = false;
 let shouldResetDisplay = false;
@@ -104,8 +103,6 @@ function evaluate(){
         secondOperand = display.textContent;
         display.textContent = roundEvaluation(operate(firstOperand, secondOperand, operator));
     }else alert("No current calculation!")
-    firstOperand = 0;
-    secondOperand = 0;
     operator = "";
 };
 
